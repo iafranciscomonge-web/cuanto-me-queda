@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuánto Me Queda</title>
+
+  <!-- Meta SEO -->
+  <meta name="description" content="Calculá tu ganancia real en Mercado Libre y Mercado Pago descontando comisiones, envíos y retenciones. Procesado en tu navegador, sin subir tus datos.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Cuánto Me Queda">
+
+  <!-- Open Graph / Redes Sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cuánto Me Queda - Sabé cuánto te queda limpio por cada venta">
+  <meta property="og:description" content="Calculá tu ganancia real en Mercado Libre y Mercado Pago descontando comisiones, envíos y retenciones. Privado y local en tu navegador.">
+  <meta property="og:locale" content="es_AR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cuánto Me Queda - Sabé cuánto te queda limpio por cada venta">
+  <meta name="twitter:description" content="Calculá tu ganancia real en Mercado Libre y Mercado Pago sin subir tus datos.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Variables y Reset */
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --border-focus: #2563eb;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --primary: #0f172a;
+      --primary-text: #ffffff;
+      --accent: #059669;
+      --accent-light: #ecfdf5;
+      --accent-border: #a7f3d0;
+      --accent-text: #047857;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #090d16;
+        --surface: #131b2e;
+        --surface-alt: #1c263f;
+        --border: #263352;
+        --border-focus: #60a5fa;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --primary: #f8fafc;
+        --primary-text: #090d16;
+        --accent: #10b981;
+        --accent-light: #064e3b33;
+        --accent-border: #047857;
+        --accent-text: #34d399;
+        --danger: #ef4444;
+        --danger-bg: #450a0a44;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 1rem;
+      padding: 0;
+    }
+
+    /* Accesibilidad de foco */
+    :focus-visible {
+      outline: 3px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header y Barra de Navegación */
+    header {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background-color: var(--bg);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--accent-light);
+      color: var(--accent-text);
+      border: 1px solid var(--accent-border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+      min-height: 48px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      opacity: 0.92;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-text);
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 3.5rem 0 2rem;
+      text-align: center;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      line-height: 1.55;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Demo Interactiva */
+    .demo-section {
+      padding: 2rem 0 4rem;
+    }
+
+    .demo-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .demo-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background-color: var(--accent-light);
+      color: var(--accent-text);
+      border: 1px solid var(--accent-border);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .demo-grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2rem;
+      }
+      .demo-card {
+        padding: 2.25rem;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .helper-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.65rem 0.85rem;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    input.has-prefix {
+      padding-left: 2rem;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--border-focus);
+    }
+
+    .editable-params {
+      background-color: var(--surface-alt);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .editable-params-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .params-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .mini-input-group label {
+      font-size: 0.75rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .mini-input-group input {
+      min-height: 40px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+    }
+
+    /* Desglose visual */
+    .breakdown-box {
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .breakdown-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .breakdown-item.deduction {
+      color: var(--danger);
+    }
+
+    .breakdown-item span:last-child {
+      font-weight: 600;
+    }
+
+    .breakdown-divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 0.5rem 0;
+    }
+
+    .result-card {
+      background-color: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .result-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .result-amount {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--accent-text);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    .result-percent {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .legend-note {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Secciones Generales */
+    section {
+      padding: 3.5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-text);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Sección Dolor */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .pain-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .pain-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pain-icon {
+      width: 36px;
+      height: 36px;
+      background-color: var(--danger-bg);
+      color: var(--danger);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .pain-card p {
+      font-size: 0.98rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Cómo Funciona */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .step-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1.5rem;
+      position: relative;
+    }
+
+    .step-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      opacity: 0.6;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-card p {
+      color: var(--text);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    /* Diferenciales */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .diff-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .diff-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .diff-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .diff-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Banner Oferta Espera */
+    .offer-banner {
+      background: linear-gradient(135deg, var(--surface-alt) 0%, var(--surface) 100%);
+      border: 2px solid var(--accent-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 820px;
+    }
+
+    .offer-badge {
+      display: inline-block;
+      background-color: var(--accent);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      margin-bottom: 0.85rem;
+    }
+
+    .offer-banner p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-container {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    details {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      transition: background-color 0.2s ease;
+    }
+
+    details[open] {
+      background-color: var(--surface-alt);
+    }
+
+    summary {
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: '+';
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--accent-text);
+      margin-left: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      content: '−';
+    }
+
+    details p {
+      margin-top: 0.85rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Formulario Waitlist */
+    .waitlist-section {
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 0;
+    }
+
+    .form-wrapper {
+      max-width: 580px;
+      margin: 0 auto;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (min-width: 640px) {
+      .form-wrapper {
+        padding: 2.5rem;
+      }
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .form-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+
+    fieldset {
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    legend {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.75rem;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: border-color 0.2s ease;
+    }
+
+    .radio-label:hover {
+      border-color: var(--border-focus);
+    }
+
+    .radio-label input[type="radio"] {
+      margin-top: 0.2rem;
+      accent-color: var(--accent);
+      min-height: auto;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1.45;
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 0.15rem;
+      accent-color: var(--accent);
+      min-height: auto;
+      width: 1.1rem;
+      height: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* Honeypot anti-spam */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    /* Estados del formulario */
+    .form-status {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    .form-status.success {
+      display: block;
+      background-color: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      color: var(--accent-text);
+    }
+
+    .form-status.error {
+      display: block;
+      background-color: var(--danger-bg);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    .form-status.warning {
+      display: block;
+      background-color: #fffbeb;
+      border: 1px solid #fef3c7;
+      color: #92400e;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .form-status.warning {
+        background-color: #451a0344;
+        border: 1px solid #78350f;
+        color: #fde68a;
+      }
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-note {
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+    }
+    @media (max-width: 480px){ .brand-badge{display:none!important} .nav-wrapper .btn{padding:10px 14px;font-size:.9rem} .brand{white-space:nowrap!important} }
+</style>
+</head>
+<body>
+
+  <!-- Navegación Superior -->
+  <header>
+    <div class="container nav-wrapper">
+      <div class="brand">
+        <span>Cuánto Me Queda</span>
+        <span class="brand-badge">Acceso anticipado</span>
+      </div>
+      <a href="#espera" class="btn btn-primary" style="padding: 0.5rem 1rem; min-height: 38px; font-size: 0.875rem;">
+        Sumarme a la espera
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Principal -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-pill">
+          <span>🇦🇷</span> Pensado para vendedores y emprendedores de Argentina
+        </div>
+        <h1>Sabé cuánto te queda limpio por cada venta</h1>
+        <p>Calculá tu ganancia real en Mercado Libre y Mercado Pago descontando comisiones, envíos y retenciones. Todo procesado en tu navegador, sin subir tus datos.</p>
+        
+        <div class="hero-cta-group">
+          <a href="#espera" class="btn btn-accent btn-large">
+            Sumarme a la espera
+          </a>
+          <span class="hero-caption">Acceso anticipado con 3 meses de plan completo bonificado</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mini Demo Interactiva -->
+    <section class="demo-section" id="demo" aria-label="Calculadora interactiva de ejemplo">
+      <div class="container">
+        <div class="demo-card">
+          <div class="demo-header">
+            <div class="demo-title">
+              <span>🧮</span> Probá una estimación en vivo
+            </div>
+            <span class="demo-tag">valores de ejemplo, editables</span>
+          </div>
+
+          <div class="demo-grid">
+            <!-- Controles de la Demo -->
+            <div class="demo-controls">
+              <div class="form-group">
+                <label for="demo-precio">Precio de venta del producto ($)</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">$</span>
+                  <input type="number" id="demo-precio" class="has-prefix" value="25000" min="100" step="100" aria-describedby="demo-precio-help">
+                </div>
+                <div id="demo-precio-help" class="helper-text">Modificá el valor para simular tu producto.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="demo-medio">Canal de cobro o publicación</label>
+                <select id="demo-medio">
+                  <option value="ml-clasica">Mercado Libre: Publicación Clásica</option>
+                  <option value="ml-premium">Mercado Libre: Publicación Premium (con cuotas)</option>
+                  <option value="mp-qr">Mercado Pago: Cobro con QR</option>
+                  <option value="mp-link">Mercado Pago: Link de pago / Tienda online</option>
+                  <option value="mp-cuotas">Mercado Pago: Link con cuotas sin interés</option>
+                </select>
+              </div>
+
+              <!-- Parámetros Editables -->
+              <div class="editable-params">
+                <div class="editable-params-title">
+                  <span>Porcentajes y costos editables</span>
+                  <span style="font-size: 0.7rem; font-weight: normal;">(Ajustalos a tu caso)</span>
+                </div>
+                <div class="params-grid">
+                  <div class="mini-input-group">
+                    <label for="demo-comision">Comisión canal (%)</label>
+                    <input type="number" id="demo-comision" value="13" step="0.5" min="0">
+                  </div>
+                  <div class="mini-input-group">
+                    <label for="demo-costo-fijo">Costo fijo por venta ($)</label>
+                    <input type="number" id="demo-costo-fijo" value="950" step="50" min="0">
+                  </div>
+                  <div class="mini-input-group">
+                    <label for="demo-envio">Costo de envío ($)</label>
+                    <input type="number" id="demo-envio" value="0" step="100" min="0">
+                  </div>
+                  <div class="mini-input-group">
+                    <label for="demo-retenciones">Retenciones / IIBB (%)</label>
+                    <input type="number" id="demo-retenciones" value="3.5" step="0.5" min="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Desglose de Resultados -->
+            <div class="breakdown-box">
+              <div>
+                <ul class="breakdown-list">
+                  <li class="breakdown-item">
+                    <span>Precio de venta inicial</span>
+                    <span id="res-precio">$ 25.000</span>
+                  </li>
+                  <li class="breakdown-item deduction">
+                    <span>Comisión del canal</span>
+                    <span id="res-comision">- $ 3.250</span>
+                  </li>
+                  <li class="breakdown-item deduction">
+                    <span>Costo fijo por venta</span>
+                    <span id="res-fijo">- $ 950</span>
+                  </li>
+                  <li class="breakdown-item deduction">
+                    <span>Costo de envío asumido</span>
+                    <span id="res-envio">- $ 0</span>
+                  </li>
+                  <li class="breakdown-item deduction">
+                    <span>IVA sobre la comisión (21%)</span>
+                    <span id="res-iva">- $ 683</span>
+                  </li>
+                  <li class="breakdown-item deduction">
+                    <span>Retenciones e IIBB estimadas</span>
+                    <span id="res-retenciones">- $ 875</span>
+                  </li>
+                  <li class="breakdown-divider"></li>
+                  <li class="breakdown-item" style="color: var(--text);">
+                    <span>Total descuentos e impuestos</span>
+                    <span id="res-total-descuentos" style="font-weight: 700; color: var(--danger);">- $ 5.758</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="result-card">
+                  <div class="result-label">Te queda neto en mano</div>
+                  <div class="result-amount" id="res-neto">$ 19.242</div>
+                  <div class="result-percent" id="res-porcentaje">76.9% de tu venta</div>
+                </div>
+                <div class="legend-note">Valores de ejemplo, editables según tu categoría fiscal y convenio de envíos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Dolor -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">La realidad del día a día</span>
+          <h2 class="section-title">Vender mucho no siempre es ganar plata</h2>
+        </div>
+
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-icon" aria-hidden="true">✕</div>
+            <p>Vendés un producto, te descuentan comisión, costo fijo, envío e IIBB, y no sabés si ganaste o cambiaste plata.</p>
+          </div>
+          <div class="pain-card">
+            <div class="pain-icon" aria-hidden="true">✕</div>
+            <p>Ofrecés cuotas para vender más y el costo financiero más el IVA sobre la comisión te comen el margen.</p>
+          </div>
+          <div class="pain-card">
+            <div class="pain-icon" aria-hidden="true">✕</div>
+            <p>Perdés horas armando planillas para cruzar los resúmenes de Mercado Pago con lo que realmente te entró al banco.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cómo Funciona -->
+    <section style="background-color: var(--surface);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple y seguro</span>
+          <h2 class="section-title">Cómo funciona Cuánto Me Queda</h2>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number" aria-hidden="true">01</div>
+            <p>Te anotás hoy en la lista de espera para recibir acceso apenas lancemos la herramienta.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number" aria-hidden="true">02</div>
+            <p>Cuando esté activa, abrís tu resumen de Mercado Libre o Mercado Pago directo desde tu navegador.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number" aria-hidden="true">03</div>
+            <p>La IA lee el archivo en tu dispositivo y te muestra al instante cuánto te queda neto por cada venta.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diferenciales -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Por qué es diferente</span>
+          <h2 class="section-title">Cuentas claras sin comprometer tu privacidad</h2>
+        </div>
+
+        <div class="diff-grid">
+          <div class="diff-card">
+            <h3><span>🔒</span> Privacidad en tu navegador</h3>
+            <p>Tus resúmenes se leen y procesan localmente en tu compu o celular. Tus números de ventas nunca se suben a nuestros servidores.</p>
+          </div>
+          <div class="diff-card">
+            <h3><span>📊</span> Todos los costos argentinos juntos</h3>
+            <p>Contempla comisión de publicación, costo fijo, cuotas, Mercado Envíos, IVA sobre comisiones y retenciones impositivas en una sola vista.</p>
+          </div>
+          <div class="diff-card">
+            <h3><span>🔄</span> Actualizado cada mes</h3>
+            <p>Mantenemos al día los cambios de tarifas, topes de costo fijo y escalas de Mercado Libre y Mercado Pago en Argentina.</p>
+          </div>
+          <div class="diff-card">
+            <h3><span>⚡</span> Simple y al grano</h3>
+            <p>Diseñado para emprendedores y vendedores chicos: sin configuraciones contables eternas ni integraciones complicadas. Entrás y ves tu margen limpio.</p>
+          </div>
+        </div>
+
+        <!-- Banner Oferta -->
+        <div class="offer-banner">
+          <span class="offer-badge">Beneficio para fundadores</span>
+          <p>Estamos terminando de armar Cuánto Me Queda. Si te sumás hoy a la lista de espera, te asegurás 3 meses gratis en el plan completo ($4.900/mes) cuando lancemos, además del acceso al plan gratuito.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="background-color: var(--surface);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Dudas frecuentes</span>
+          <h2 class="section-title">Preguntas claras, respuestas directas</h2>
+        </div>
+
+        <div class="faq-container">
+          <details>
+            <summary>¿Cuándo voy a poder usar la herramienta?</summary>
+            <p>Actualmente estamos en desarrollo. Al anotarte en esta lista de espera, te vamos a avisar por mail apenas habilitemos el acceso para los primeros usuarios.</p>
+          </details>
+
+          <details>
+            <summary>¿Es seguro cargar mis resúmenes de ventas?</summary>
+            <p>Sí. El análisis con IA corre directamente adentro de tu navegador web. Tus archivos y datos financieros se procesan en tu dispositivo y no salen de ahí.</p>
+          </details>
+
+          <details>
+            <summary>¿Tengo que conectar mi cuenta de Mercado Libre?</summary>
+            <p>No hace falta dar permisos de acceso a tu cuenta. Vas a poder analizar tus números leyendo directamente los resúmenes que descargás de la plataforma.</p>
+          </details>
+
+          <details>
+            <summary>¿Qué descuentos e impuestos tiene en cuenta?</summary>
+            <p>Calcula cargo por vender, costo fijo por unidad, financiación por cuotas, costo de Mercado Envíos, IVA sobre comisiones y las retenciones o percepciones aplicadas en el resumen.</p>
+          </details>
+
+          <details>
+            <summary>¿Cuánto va a costar cuando salga?</summary>
+            <p>Habrá un plan gratis para consultas básicas y un plan completo a $4.900/mes. Anotándote ahora en la lista de espera tenés 3 meses gratis del plan completo.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario de Espera -->
+    <section class="waitlist-section" id="espera">
+      <div class="container">
+        <div class="form-wrapper">
+          <h2 class="form-title">Sumate a la lista de espera</h2>
+          <p class="form-subtitle">Asegurá tu lugar y tus 3 meses gratis para el plan completo.</p>
+
+          <form id="waitlist-form" novalidate>
+            <!-- Honeypot anti-spam -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="honeypot">Dejá este campo vacío</label>
+              <input type="text" id="honeypot" name="b_phone" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo electrónico *</label>
+              <input type="email" id="email" name="email" required placeholder="tu@email.com" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label for="rubro">Rubro principal en el que vendés *</label>
+              <select id="rubro" name="rubro" required>
+                <option value="" disabled selected>Elegí una opción...</option>
+                <option value="indumentaria">Indumentaria y Calzado</option>
+                <option value="tecnologia">Tecnología y Electrónica</option>
+                <option value="hogar">Hogar, Muebles y Deco</option>
+                <option value="alimentos">Alimentos y Bebidas</option>
+                <option value="repuestos">Repuestos y Accesorios para Vehículos</option>
+                <option value="belleza">Belleza y Cuidado Personal</option>
+                <option value="herramientas">Herramientas y Construcción</option>
+                <option value="juguetes">Juguetes, Bebés y Niños</option>
+                <option value="otro">Otro rubro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="ventas_mes">Cantidad promedio de ventas al mes *</label>
+              <select id="ventas_mes" name="ventas_mes" required>
+                <option value="" disabled selected>Elegí un rango de ventas...</option>
+                <option value="menos_20">Menos de 20 ventas / mes</option>
+                <option value="20_a_100">De 20 a 100 ventas / mes</option>
+                <option value="101_a_500">De 101 a 500 ventas / mes</option>
+                <option value="mas_500">Más de 500 ventas / mes</option>
+              </select>
+            </div>
+
+            <fieldset>
+              <legend>Cuando lancemos la versión completa a $4.900 por mes, ¿qué tan probable es que la uses para controlar tus ventas? *</legend>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="intencion_pago" value="si" required>
+                  <span>Sí, la pagaría si me ahorra tiempo y me evita perder margen</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="intencion_pago" value="tal_vez">
+                  <span>Tal vez, dependería de cómo me funcione en los meses de prueba</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="intencion_pago" value="no">
+                  <span>No, me alcanzaría solo con las funciones del plan gratis</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="privacidad" name="privacidad" required>
+              <span>Acepto el aviso de privacidad: Solo usamos tu correo para avisarte del lanzamiento y tus futuros resúmenes se procesarán 100% en tu navegador, sin salir de tu dispositivo.</span>
+            </label>
+
+            <button type="submit" class="btn btn-accent" id="submit-btn" style="width: 100%;">
+              Sumarme a la espera
+            </button>
+
+            <div id="form-status" class="form-status" role="alert" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Cuánto Me Queda</strong> — Tu margen limpio, sin vueltas ni planillas eternas.</p>
+      <p class="footer-note">Mercado Libre y Mercado Pago son marcas registradas de sus respectivos dueños. Cuánto Me Queda es una herramienta independiente pensada para vendedores.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Configuración de Supabase
+    const SUPABASE_URL = 'https://eytlwzfamakpwmcxldsg.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGx3emZhbWFrcHdtY3hsZHNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzOTgzMzYsImV4cCI6MjEwOTk3NDMzNn0.XOi16YsnP6r1Cx_kkIJzDEMfvnxlYVrx3PhSTMcxYl0';
+
+    /* ==========================================================
+       LÓGICA DE LA MINI DEMO INTERACTIVA
+       ========================================================== */
+    const PRESETS = {
+      'ml-clasica': { comision: 13, fijo: 950, envio: 0, retenciones: 3.5 },
+      'ml-premium': { comision: 28, fijo: 950, envio: 0, retenciones: 3.5 },
+      'mp-qr':      { comision: 1.5, fijo: 0, envio: 0, retenciones: 2.0 },
+      'mp-link':    { comision: 4.5, fijo: 0, envio: 0, retenciones: 2.5 },
+      'mp-cuotas':  { comision: 15.5, fijo: 0, envio: 0, retenciones: 3.0 }
+    };
+
+    const inputPrecio = document.getElementById('demo-precio');
+    const selectMedio = document.getElementById('demo-medio');
+    const inputComision = document.getElementById('demo-comision');
+    const inputFijo = document.getElementById('demo-costo-fijo');
+    const inputEnvio = document.getElementById('demo-envio');
+    const inputRetenciones = document.getElementById('demo-retenciones');
+
+    const resPrecio = document.getElementById('res-precio');
+    const resComision = document.getElementById('res-comision');
+    const resFijo = document.getElementById('res-fijo');
+    const resEnvio = document.getElementById('res-envio');
+    const resIva = document.getElementById('res-iva');
+    const resRetenciones = document.getElementById('res-retenciones');
+    const resTotalDescuentos = document.getElementById('res-total-descuentos');
+    const resNeto = document.getElementById('res-neto');
+    const resPorcentaje = document.getElementById('res-porcentaje');
+
+    function formatearPesos(valor) {
+      return '$ ' + Math.round(valor).toLocaleString('es-AR');
+    }
+
+    function aplicarPreset(medioKey) {
+      const p = PRESETS[medioKey];
+      if (p) {
+        inputComision.value = p.comision;
+        inputFijo.value = p.fijo;
+        inputEnvio.value = p.envio;
+        inputRetenciones.value = p.retenciones;
+      }
+    }
+
+    function calcularDemo() {
+      const precio = Math.max(0, parseFloat(inputPrecio.value) || 0);
+      const pctComision = Math.max(0, parseFloat(inputComision.value) || 0);
+      const costoFijo = Math.max(0, parseFloat(inputFijo.value) || 0);
+      const costoEnvio = Math.max(0, parseFloat(inputEnvio.value) || 0);
+      const pctRetenciones = Math.max(0, parseFloat(inputRetenciones.value) || 0);
+
+      // Cálculos según régimen comercial argentino habitual
+      const comisionMonto = (precio * pctComision) / 100;
+      const ivaComision = comisionMonto * 0.21;
+      const retencionesMonto = (precio * pctRetenciones) / 100;
+      const totalDescuentos = comisionMonto + costoFijo + costoEnvio + ivaComision + retencionesMonto;
+      const netoMonto = Math.max(0, precio - totalDescuentos);
+      const netoPorcentaje = precio > 0 ? ((netoMonto / precio) * 100).toFixed(1) : 0;
+
+      resPrecio.textContent = formatearPesos(precio);
+      resComision.textContent = '- ' + formatearPesos(comisionMonto);
+      resFijo.textContent = '- ' + formatearPesos(costoFijo);
+      resEnvio.textContent = '- ' + formatearPesos(costoEnvio);
+      resIva.textContent = '- ' + formatearPesos(ivaComision);
+      resRetenciones.textContent = '- ' + formatearPesos(retencionesMonto);
+      resTotalDescuentos.textContent = '- ' + formatearPesos(totalDescuentos);
+      resNeto.textContent = formatearPesos(netoMonto);
+      resPorcentaje.textContent = netoPorcentaje + '% de tu venta';
+    }
+
+    selectMedio.addEventListener('change', (e) => {
+      aplicarPreset(e.target.value);
+      calcularDemo();
+    });
+
+    [inputPrecio, inputComision, inputFijo, inputEnvio, inputRetenciones].forEach(input => {
+      input.addEventListener('input', calcularDemo);
+    });
+
+    // Inicializar Demo
+    calcularDemo();
+
+    /* ==========================================================
+       FORMULARIO LISTA DE ESPERA Y ENVÍO A SUPABASE
+       ========================================================== */
+    const waitlistForm = document.getElementById('waitlist-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formStatus = document.getElementById('form-status');
+
+    function setFormStatus(mensaje, tipo) {
+      formStatus.textContent = mensaje;
+      formStatus.className = 'form-status ' + tipo;
+    }
+
+    // Leemos origen de utm_source o defecto 'directo'
+    const urlParams = new URLSearchParams(window.location.search);
+    const origenParam = urlParams.get('utm_source') || 'directo';
+
+    waitlistForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Verificación honeypot anti-spam
+      const hpValue = document.getElementById('honeypot').value;
+      if (hpValue) {
+        // Bot detectado: simular éxito silencioso
+        setFormStatus('¡Listo! Ya estás en la lista de espera.', 'success');
+        waitlistForm.reset();
+        return;
+      }
+
+      // Validación nativa de formulario
+      if (!waitlistForm.checkValidity()) {
+        waitlistForm.reportValidity();
+        return;
+      }
+
+      const emailInput = document.getElementById('email').value.trim();
+      const rubroInput = document.getElementById('rubro').value;
+      const ventasInput = document.getElementById('ventas_mes').value;
+      const intencionRadio = document.querySelector('input[name="intencion_pago"]:checked');
+      const privacidadCheck = document.getElementById('privacidad').checked;
+
+      if (!intencionRadio) {
+        setFormStatus('Por favor seleccioná tu intención de uso a futuro.', 'error');
+        return;
+      }
+
+      if (!privacidadCheck) {
+        setFormStatus('Es necesario aceptar el aviso de privacidad para continuar.', 'error');
+        return;
+      }
+
+      // Verificación de configuración de Supabase
+      const isConfigured = 
+        SUPABASE_URL && 
+        SUPABASE_URL !== 'PEGAR_URL' && 
+        SUPABASE_ANON_KEY && 
+        SUPABASE_ANON_KEY !== 'PEGAR_CLAVE';
+
+      if (!isConfigured) {
+        console.warn('Formulario en modo demostración: Las constantes de Supabase no fueron configuradas aún.');
+        setFormStatus('Formulario en configuración. Pronto estará disponible para recibir inscripciones.', 'warning');
+        return;
+      }
+
+      // Preparar envío
+      const payload = {
+        email: emailInput,
+        rubro: rubroInput,
+        ventas_mes: ventasInput,
+        intencion_pago: intencionRadio.value,
+        origen: origenParam
+      };
+
+      submitBtn.disabled = true;
+      const btnOriginalText = submitBtn.textContent;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        const cleanBaseUrl = SUPABASE_URL.replace(/\/+$/, '');
+        const response = await fetch(`${cleanBaseUrl}/rest/v1/lista_espera`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok || response.status === 409) {
+          setFormStatus('¡Listo! Ya te anotaste en la lista de espera. Te vamos a avisar por mail apenas abramos los cupos con tus 3 meses gratis.', 'success');
+          waitlistForm.reset();
+          // Restaurar demo o mantener inputs limpios
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          console.error('Error al registrar en lista de espera:', errData);
+          setFormStatus('Hubo un problema al registrarte. Si ya te habías anotado, tu correo ya está guardado.', 'error');
+        }
+      } catch (err) {
+        console.error('Error de conexión:', err);
+        setFormStatus('Error de conexión al enviar el formulario. Por favor revisá tu conexión e intentá de nuevo.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = btnOriginalText;
+      }
+    });
+  </script>
+</body>
+</html>
