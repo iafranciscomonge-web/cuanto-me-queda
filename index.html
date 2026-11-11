@@ -926,114 +926,141 @@
     </section>
 
     <!-- Mini Demo Interactiva -->
-    <section class="demo-section" id="demo" aria-label="Calculadora interactiva de ejemplo">
-      <div class="container">
-        <div class="demo-card">
-          <div class="demo-header">
-            <div class="demo-title">
-              <span>🧮</span> Probá una estimación en vivo
-            </div>
-            <span class="demo-tag">valores de ejemplo, editables</span>
+    <section class="demo-section" id="demo" aria-labelledby="dr-titulo">
+      <style>
+        .dr{max-width:1080px;margin:0 auto;padding:0 16px}
+        .dr-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:24px;display:grid;gap:20px}
+        .dr-head{display:grid;gap:6px}
+        .dr-head h2{margin:0;font-size:clamp(1.35rem,3vw,1.8rem);text-wrap:balance}
+        .dr-fuente{font-size:.82rem;color:var(--text-muted)}
+        .dr-fuente a{color:var(--accent-text)}
+        .dr-tabs{display:flex;flex-wrap:wrap;gap:8px}
+        .dr-tab{border:1px solid var(--border);background:var(--surface-alt);color:var(--text);padding:10px 14px;border-radius:999px;font:inherit;font-weight:600;cursor:pointer}
+        .dr-tab[aria-selected="true"]{background:var(--primary);color:var(--primary-text);border-color:var(--primary)}
+        .dr-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+        @media (max-width:820px){.dr-grid{grid-template-columns:1fr}}
+        .dr-f{display:grid;gap:12px;align-content:start}
+        .dr-f label{display:grid;gap:5px;font-size:.88rem;font-weight:600}
+        .dr-f small{font-weight:400;color:var(--text-muted)}
+        .dr-f input,.dr-f select{font:inherit;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);width:100%}
+        .dr-f input:focus-visible,.dr-f select:focus-visible,.dr-tab:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
+        .dr-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .dr-oficial{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--accent-light);color:var(--accent-text);border:1px solid var(--accent-border)}
+        .dr-tuyo{background:var(--surface-alt);color:var(--text-muted);border-color:var(--border)}
+        .dr-res{background:var(--surface-alt);border:1px dashed var(--border);border-radius:var(--radius-md);padding:18px;display:grid;gap:8px;font-variant-numeric:tabular-nums;align-content:start}
+        .dr-l{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+        .dr-l span:first-child{color:var(--text-muted)}
+        .dr-l.neg span:last-child{color:var(--danger)}
+        .dr-tot{border-top:1px dashed var(--border);padding-top:10px;margin-top:4px;font-weight:700;font-size:1.05rem}
+        .dr-big{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:800;color:var(--accent-text)}
+        .dr-aviso{font-size:.86rem;padding:10px 12px;border-radius:var(--radius-sm);background:var(--accent-light);border:1px solid var(--accent-border);color:var(--text)}
+        .dr-aviso.alerta{background:var(--danger-bg);border-color:var(--danger);}
+        .dr-nota{font-size:.8rem;color:var(--text-muted)}
+        [hidden]{display:none!important}
+      </style>
+      <div class="dr">
+        <div class="dr-card">
+          <div class="dr-head">
+            <h2 id="dr-titulo">Probá con tus números: cuánto te queda de verdad</h2>
+            <p class="dr-fuente">Tarifas de Mercado Pago <b>oficiales</b>, vigentes desde el 19/10/2026 (<a href="https://www.mercadopago.com.ar/ayuda/26748" target="_blank" rel="noopener">fuente</a> · <a href="https://www.mercadopago.com.ar/herramientas-para-vender/link-de-pago" target="_blank" rel="noopener">costo de cuotas</a>), revisadas el 11/11/2026. Todo se calcula en tu navegador: no se envía ningún dato.</p>
           </div>
-
-          <div class="demo-grid">
-            <!-- Controles de la Demo -->
-            <div class="demo-controls">
-              <div class="form-group">
-                <label for="demo-precio">Precio de venta del producto ($)</label>
-                <div class="input-wrapper">
-                  <span class="input-prefix">$</span>
-                  <input type="number" id="demo-precio" class="has-prefix" value="25000" min="100" step="100" aria-describedby="demo-precio-help">
-                </div>
-                <div id="demo-precio-help" class="helper-text">Modificá el valor para simular tu producto.</div>
-              </div>
-
-              <div class="form-group">
-                <label for="demo-medio">Canal de cobro o publicación</label>
-                <select id="demo-medio">
-                  <option value="ml-clasica">Mercado Libre: Publicación Clásica</option>
-                  <option value="ml-premium">Mercado Libre: Publicación Premium (con cuotas)</option>
-                  <option value="mp-qr">Mercado Pago: Cobro con QR</option>
-                  <option value="mp-link">Mercado Pago: Link de pago / Tienda online</option>
-                  <option value="mp-cuotas">Mercado Pago: Link con cuotas sin interés</option>
-                </select>
-              </div>
-
-              <!-- Parámetros Editables -->
-              <div class="editable-params">
-                <div class="editable-params-title">
-                  <span>Porcentajes y costos editables</span>
-                  <span style="font-size: 0.7rem; font-weight: normal;">(Ajustalos a tu caso)</span>
-                </div>
-                <div class="params-grid">
-                  <div class="mini-input-group">
-                    <label for="demo-comision">Comisión canal (%)</label>
-                    <input type="number" id="demo-comision" value="13" step="0.5" min="0">
-                  </div>
-                  <div class="mini-input-group">
-                    <label for="demo-costo-fijo">Costo fijo por venta ($)</label>
-                    <input type="number" id="demo-costo-fijo" value="950" step="50" min="0">
-                  </div>
-                  <div class="mini-input-group">
-                    <label for="demo-envio">Costo de envío ($)</label>
-                    <input type="number" id="demo-envio" value="0" step="100" min="0">
-                  </div>
-                  <div class="mini-input-group">
-                    <label for="demo-retenciones">Retenciones / IIBB (%)</label>
-                    <input type="number" id="demo-retenciones" value="3.5" step="0.5" min="0">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Desglose de Resultados -->
-            <div class="breakdown-box">
-              <div>
-                <ul class="breakdown-list">
-                  <li class="breakdown-item">
-                    <span>Precio de venta inicial</span>
-                    <span id="res-precio">$ 25.000</span>
-                  </li>
-                  <li class="breakdown-item deduction">
-                    <span>Comisión del canal</span>
-                    <span id="res-comision">- $ 3.250</span>
-                  </li>
-                  <li class="breakdown-item deduction">
-                    <span>Costo fijo por venta</span>
-                    <span id="res-fijo">- $ 950</span>
-                  </li>
-                  <li class="breakdown-item deduction">
-                    <span>Costo de envío asumido</span>
-                    <span id="res-envio">- $ 0</span>
-                  </li>
-                  <li class="breakdown-item deduction">
-                    <span>IVA sobre la comisión (21%)</span>
-                    <span id="res-iva">- $ 683</span>
-                  </li>
-                  <li class="breakdown-item deduction">
-                    <span>Retenciones e IIBB estimadas</span>
-                    <span id="res-retenciones">- $ 875</span>
-                  </li>
-                  <li class="breakdown-divider"></li>
-                  <li class="breakdown-item" style="color: var(--text);">
-                    <span>Total descuentos e impuestos</span>
-                    <span id="res-total-descuentos" style="font-weight: 700; color: var(--danger);">- $ 5.758</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <div class="result-card">
-                  <div class="result-label">Te queda neto en mano</div>
-                  <div class="result-amount" id="res-neto">$ 19.242</div>
-                  <div class="result-percent" id="res-porcentaje">76.9% de tu venta</div>
-                </div>
-                <div class="legend-note">Valores de ejemplo, editables según tu categoría fiscal y convenio de envíos.</div>
-              </div>
-            </div>
+          <div class="dr-tabs" role="tablist" aria-label="Tipo de cobro">
+            <button class="dr-tab" role="tab" id="dr-t-mp" aria-selected="true" aria-controls="dr-p-mp">Cobro con Mercado Pago</button>
+            <button class="dr-tab" role="tab" id="dr-t-ml" aria-selected="false" aria-controls="dr-p-ml">Venta en Mercado Libre</button>
+            <button class="dr-tab" role="tab" id="dr-t-se" aria-selected="false" aria-controls="dr-p-se">Cobro una seña</button>
           </div>
+          <div class="dr-grid">
+            <div>
+              <!-- Mercado Pago -->
+              <div class="dr-f" id="dr-p-mp" role="tabpanel" aria-labelledby="dr-t-mp">
+                <label>Monto que cobrás ($)<input type="number" id="dr-mp-monto" min="0" step="100" value="50000" inputmode="decimal"></label>
+                <label>Cómo cobrás <select id="dr-mp-herr"><option value="qr">Código QR</option><option value="point">Lector Point</option><option value="link">Link de pago / tienda online</option></select></label>
+                <label>Con qué te paga el cliente <select id="dr-mp-medio"></select></label>
+                <label>Cuándo querés tener la plata <select id="dr-mp-plazo"></select></label>
+                <label id="dr-mp-cuotas-l">Cuotas sin interés que ofrecés <select id="dr-mp-cuotas"><option value="0">Ninguna</option><option value="7.79">2 cuotas</option><option value="10.49">3 cuotas</option><option value="18.69">6 cuotas</option><option value="26.49">9 cuotas</option><option value="32.29">12 cuotas</option><option value="41.59">18 cuotas</option></select></label>
+                <label>Retención de Ingresos Brutos (%) <small>Depende de tu provincia e inscripción. Si no sabés, dejá 0 y fijate en tu resumen.</small><input type="number" id="dr-mp-iibb" min="0" max="10" step="0.1" value="0"></label>
+              </div>
+              <!-- Mercado Libre -->
+              <div class="dr-f" id="dr-p-ml" role="tabpanel" aria-labelledby="dr-t-ml" hidden>
+                <p class="dr-nota">En Mercado Libre el cargo por vender depende de la <b>categoría</b> de tu producto, así que no hay un único porcentaje oficial. Copiá los valores de tu publicación o del <a href="https://www.mercadolibre.com.ar/simulador-de-costos" target="_blank" rel="noopener">simulador de costos oficial</a>. Cobrar en Mercado Pago las ventas de Mercado Libre no tiene costo extra (<a href="https://www.mercadopago.com.ar/ayuda/26748" target="_blank" rel="noopener">fuente</a>).</p>
+                <label>Precio de venta ($)<input type="number" id="dr-ml-precio" min="0" step="100" value="30000" inputmode="decimal"></label>
+                <div class="dr-row">
+                  <label>Cargo por vender (%) <small>de tu publicación</small><input type="number" id="dr-ml-cargo" min="0" max="60" step="0.1" placeholder="Ej.: el de tu publicación"></label>
+                  <label>Costo por cuotas (%) <small>0 si no ofrecés</small><input type="number" id="dr-ml-cuotas" min="0" max="60" step="0.1" value="0"></label>
+                </div>
+                <div class="dr-row">
+                  <label>Costo fijo por unidad ($) <small>solo productos baratos</small><input type="number" id="dr-ml-fijo" min="0" step="10" value="0"></label>
+                  <label>Envío a tu cargo ($)<input type="number" id="dr-ml-envio" min="0" step="100" value="0"></label>
+                </div>
+                <div class="dr-row">
+                  <label>Costo del producto ($) <small>opcional</small><input type="number" id="dr-ml-costo" min="0" step="100" value="0"></label>
+                  <label>Retención IIBB (%)<input type="number" id="dr-ml-iibb" min="0" max="10" step="0.1" value="0"></label>
+                </div>
+              </div>
+              <!-- Seña -->
+              <div class="dr-f" id="dr-p-se" role="tabpanel" aria-labelledby="dr-t-se" hidden>
+                <p class="dr-nota">Para quien arregla un servicio y se queda con una <b>seña</b> como ganancia, mientras el resto lo cobra quien hace el trabajo.</p>
+                <label>Precio total del servicio ($)<input type="number" id="dr-se-total" min="0" step="1000" value="200000" inputmode="decimal"></label>
+                <label>Tu seña (%) <small>o completá el monto abajo</small><input type="number" id="dr-se-pct" min="0" max="100" step="1" value="20"></label>
+                <label>Cómo te llega la seña <select id="dr-se-via"><option value="0">Transferencia a tu cuenta (0%)</option><option value="0.80">QR, dinero en Mercado Pago (0,80% + IVA)</option><option value="1.35">QR con débito al momento (1,35% + IVA)</option><option value="5.99">QR con crédito al momento (5,99% + IVA)</option><option value="6.29">Link de pago al momento (6,29% + IVA)</option></select></label>
+                <label>Retención IIBB sobre lo que entra (%)<input type="number" id="dr-se-iibb" min="0" max="10" step="0.1" value="0"></label>
+              </div>
+            </div>
+            <div class="dr-res" aria-live="polite" id="dr-res"></div>
+          </div>
+          <p class="dr-nota">Las tarifas oficiales se actualizan cada mes con su fuente. Para confirmar lo que te aplica a vos: en Mercado Pago entrá a <b>Tu negocio → Costos</b>. Esta estimación no reemplaza el asesoramiento de un contador.</p>
         </div>
       </div>
+      <script>
+      (function(){
+        var IVA=0.21;
+        var MP={ // fuente: mercadopago.com.ar/ayuda/26748 (vigente desde 19/10/2026)
+          qr:{dinero:[["Al momento",0.80]],mcredito:[["Al momento",1.35]],debito:[["Al momento",1.35],["En 2 días",0.85]],credito:[["Al momento",5.99],["En 10 días",4.19]],prepaga:[["Al momento",3.75]]},
+          point:{debito:[["Al momento",2.99],["En 2 días",2.75]],credito:[["Al momento",5.99],["En 5 días",5.19],["En 10 días",4.19]],prepaga:[["Al momento",3.75],["En 3 días",3.50]],pix:[["Al momento",3.25]]},
+          link:{todos:[["Al momento",6.29],["En 10 días",4.39],["En 18 días",3.39],["En 35 días",1.49]]}
+        };
+        var NOM={dinero:"Dinero en Mercado Pago",mcredito:"Mercado Crédito",debito:"Tarjeta de débito",credito:"Tarjeta de crédito",prepaga:"Tarjeta prepaga",pix:"Pix",todos:"Todos los medios"};
+        function $(id){return document.getElementById(id)}
+        function n(id){var v=parseFloat($(id).value);return isFinite(v)&&v>0?v:0}
+        function ars(x){return (x<0?"− ":"")+"$ "+Math.round(Math.abs(x)).toLocaleString("es-AR")}
+        function pc(x){return x.toFixed(2).replace(".",",")+"%"}
+        function linea(t,v,neg,tag){return '<div class="dr-l'+(neg?' neg':'')+'"><span>'+t+(tag?' <span class="dr-oficial'+(tag==='tuyo'?' dr-tuyo':'')+'">'+(tag==='tuyo'?'tu dato':'oficial')+'</span>':'')+'</span><span>'+v+'</span></div>'}
+        function llenarMedios(){var h=$("dr-mp-herr").value,s=$("dr-mp-medio");s.innerHTML=Object.keys(MP[h]).map(function(k){return '<option value="'+k+'">'+NOM[k]+'</option>'}).join("");$("dr-mp-cuotas-l").hidden=(h!=="link");if(h!=="link")$("dr-mp-cuotas").value="0";llenarPlazos()}
+        function llenarPlazos(){var h=$("dr-mp-herr").value,m=$("dr-mp-medio").value;$("dr-mp-plazo").innerHTML=MP[h][m].map(function(p,i){return '<option value="'+i+'">'+p[0]+' ('+pc(p[1])+' + IVA)</option>'}).join("");calc()}
+        var modo="mp";
+        function calc(){
+          var r=$("dr-res"),h="";
+          if(modo==="mp"){
+            var monto=n("dr-mp-monto"),herr=$("dr-mp-herr").value,med=$("dr-mp-medio").value,p=MP[herr][med][+$("dr-mp-plazo").value||0];
+            var tasa=p[1],cu=parseFloat($("dr-mp-cuotas").value)||0,com=monto*(tasa+cu)/100,iva=com*IVA,ret=monto*n("dr-mp-iibb")/100,queda=monto-com-iva-ret,desc=monto?(monto-queda)/monto*100:0;
+            h=linea("Cobrás",ars(monto))+linea("Comisión ("+pc(tasa)+", "+p[0].toLowerCase()+")",ars(-monto*tasa/100),1,"of")+(cu?linea("Costo por cuotas ("+pc(cu)+")",ars(-monto*cu/100),1,"of"):"")+linea("IVA 21% sobre la comisión",ars(-iva),1,"of")+(ret?linea("Retención IIBB",ars(-ret),1,"tuyo"):"")+
+              '<div class="dr-l dr-tot"><span>Te queda</span><span class="dr-big">'+ars(queda)+'</span></div>'+linea("Te descuentan en total",pc(desc));
+            var alt=monto*(0.80*(1+IVA))/100,ahorro=(com+iva)-alt;
+            if(herr!=="qr"||med!=="dinero") h+='<p class="dr-aviso">Si ese mismo cobro lo recibieras por <b>QR con dinero en Mercado Pago</b> (0,80% + IVA) te quedarían '+ars(ahorro)+' más.</p>';
+            if(cu) h+='<p class="dr-aviso alerta">Ofrecer '+$("dr-mp-cuotas").selectedOptions[0].text+' sin interés te cuesta '+ars(monto*cu/100*(1+IVA))+'. Si lo absorbés, subí el precio o compensalo.</p>';
+          } else if(modo==="ml"){
+            var pr=n("dr-ml-precio"),cargo=n("dr-ml-cargo"),cuo=n("dr-ml-cuotas"),fijo=n("dr-ml-fijo"),env=n("dr-ml-envio"),costo=n("dr-ml-costo");
+            if(!cargo){r.innerHTML='<p class="dr-aviso">Completá el <b>cargo por vender (%)</b> que figura en tu publicación o en el simulador oficial de Mercado Libre para ver el resultado.</p>';return}
+            var comml=pr*(cargo+cuo)/100+fijo,ivaml=comml*IVA,retml=pr*n("dr-ml-iibb")/100,netoml=pr-comml-ivaml-retml-env,gan=netoml-costo;
+            h=linea("Precio de venta",ars(pr))+linea("Cargo por vender ("+pc(cargo)+")",ars(-pr*cargo/100),1,"tuyo")+(cuo?linea("Costo por cuotas ("+pc(cuo)+")",ars(-pr*cuo/100),1,"tuyo"):"")+(fijo?linea("Costo fijo",ars(-fijo),1,"tuyo"):"")+linea("IVA 21% sobre los cargos",ars(-ivaml),1,"of")+(retml?linea("Retención IIBB",ars(-retml),1,"tuyo"):"")+(env?linea("Envío a tu cargo",ars(-env),1,"tuyo"):"")+linea("Cobro en Mercado Pago","$ 0",0,"of")+
+              '<div class="dr-l dr-tot"><span>Te acreditan</span><span class="dr-big">'+ars(netoml)+'</span></div>';
+            if(costo){h+=linea("Menos el costo del producto",ars(-costo),1)+'<div class="dr-l dr-tot"><span>Ganancia real</span><span>'+ars(gan)+' ('+pc(pr?gan/pr*100:0)+')</span></div>';if(gan<0)h+='<p class="dr-aviso alerta">Con estos números <b>perdés plata</b> en cada venta.</p>'}
+          } else {
+            var tot=n("dr-se-total"),pct=n("dr-se-pct"),sena=tot*pct/100,via=parseFloat($("dr-se-via").value)||0,cs=sena*via/100,ivs=cs*IVA,rs=sena*n("dr-se-iibb")/100,qs=sena-cs-ivs-rs;
+            h=linea("Servicio total",ars(tot))+linea("Tu seña ("+pc(pct)+")",ars(sena))+(via?linea("Comisión Mercado Pago ("+pc(via)+")",ars(-cs),1,"of")+linea("IVA 21% sobre la comisión",ars(-ivs),1,"of"):linea("Comisión por transferencia recibida","$ 0",0,"of"))+(rs?linea("Retención IIBB",ars(-rs),1,"tuyo"):"")+
+              '<div class="dr-l dr-tot"><span>Tu ganancia</span><span class="dr-big">'+ars(qs)+'</span></div>';
+            var mal=tot*6.29/100*(1+IVA);
+            h+='<p class="dr-aviso">Ojo con un error común: si cobraras el <b>total</b> por link de pago y después le pasaras el resto al prestador, Mercado Pago te cobraría comisión sobre los '+ars(tot)+': '+ars(mal)+'. Eso sería el '+pc(sena?mal/sena*100:0)+' de tu seña. Cobrar solo la seña por transferencia te cuesta $ 0 de comisión.</p>';
+          }
+          r.innerHTML=h;
+        }
+        var tabs={mp:"dr-t-mp",ml:"dr-t-ml",se:"dr-t-se"};
+        Object.keys(tabs).forEach(function(k){$(tabs[k]).addEventListener("click",function(){modo=k;Object.keys(tabs).forEach(function(j){$(tabs[j]).setAttribute("aria-selected",j===k);$("dr-p-"+j).hidden=(j!==k)});calc()})});
+        $("dr-mp-herr").addEventListener("change",llenarMedios);$("dr-mp-medio").addEventListener("change",llenarPlazos);
+        document.querySelectorAll("#demo input,#demo select").forEach(function(el){if(!/dr-mp-(herr|medio)/.test(el.id))el.addEventListener("input",calc)});
+        llenarMedios();
+      })();
+      </script>
     </section>
 
     <!-- Sección de Dolor -->
@@ -1250,85 +1277,7 @@
     const SUPABASE_URL = 'https://eytlwzfamakpwmcxldsg.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGx3emZhbWFrcHdtY3hsZHNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzOTgzMzYsImV4cCI6MjEwOTk3NDMzNn0.XOi16YsnP6r1Cx_kkIJzDEMfvnxlYVrx3PhSTMcxYl0';
 
-    /* ==========================================================
-       LÓGICA DE LA MINI DEMO INTERACTIVA
-       ========================================================== */
-    const PRESETS = {
-      'ml-clasica': { comision: 13, fijo: 950, envio: 0, retenciones: 3.5 },
-      'ml-premium': { comision: 28, fijo: 950, envio: 0, retenciones: 3.5 },
-      'mp-qr':      { comision: 1.5, fijo: 0, envio: 0, retenciones: 2.0 },
-      'mp-link':    { comision: 4.5, fijo: 0, envio: 0, retenciones: 2.5 },
-      'mp-cuotas':  { comision: 15.5, fijo: 0, envio: 0, retenciones: 3.0 }
-    };
-
-    const inputPrecio = document.getElementById('demo-precio');
-    const selectMedio = document.getElementById('demo-medio');
-    const inputComision = document.getElementById('demo-comision');
-    const inputFijo = document.getElementById('demo-costo-fijo');
-    const inputEnvio = document.getElementById('demo-envio');
-    const inputRetenciones = document.getElementById('demo-retenciones');
-
-    const resPrecio = document.getElementById('res-precio');
-    const resComision = document.getElementById('res-comision');
-    const resFijo = document.getElementById('res-fijo');
-    const resEnvio = document.getElementById('res-envio');
-    const resIva = document.getElementById('res-iva');
-    const resRetenciones = document.getElementById('res-retenciones');
-    const resTotalDescuentos = document.getElementById('res-total-descuentos');
-    const resNeto = document.getElementById('res-neto');
-    const resPorcentaje = document.getElementById('res-porcentaje');
-
-    function formatearPesos(valor) {
-      return '$ ' + Math.round(valor).toLocaleString('es-AR');
-    }
-
-    function aplicarPreset(medioKey) {
-      const p = PRESETS[medioKey];
-      if (p) {
-        inputComision.value = p.comision;
-        inputFijo.value = p.fijo;
-        inputEnvio.value = p.envio;
-        inputRetenciones.value = p.retenciones;
-      }
-    }
-
-    function calcularDemo() {
-      const precio = Math.max(0, parseFloat(inputPrecio.value) || 0);
-      const pctComision = Math.max(0, parseFloat(inputComision.value) || 0);
-      const costoFijo = Math.max(0, parseFloat(inputFijo.value) || 0);
-      const costoEnvio = Math.max(0, parseFloat(inputEnvio.value) || 0);
-      const pctRetenciones = Math.max(0, parseFloat(inputRetenciones.value) || 0);
-
-      // Cálculos según régimen comercial argentino habitual
-      const comisionMonto = (precio * pctComision) / 100;
-      const ivaComision = comisionMonto * 0.21;
-      const retencionesMonto = (precio * pctRetenciones) / 100;
-      const totalDescuentos = comisionMonto + costoFijo + costoEnvio + ivaComision + retencionesMonto;
-      const netoMonto = Math.max(0, precio - totalDescuentos);
-      const netoPorcentaje = precio > 0 ? ((netoMonto / precio) * 100).toFixed(1) : 0;
-
-      resPrecio.textContent = formatearPesos(precio);
-      resComision.textContent = '- ' + formatearPesos(comisionMonto);
-      resFijo.textContent = '- ' + formatearPesos(costoFijo);
-      resEnvio.textContent = '- ' + formatearPesos(costoEnvio);
-      resIva.textContent = '- ' + formatearPesos(ivaComision);
-      resRetenciones.textContent = '- ' + formatearPesos(retencionesMonto);
-      resTotalDescuentos.textContent = '- ' + formatearPesos(totalDescuentos);
-      resNeto.textContent = formatearPesos(netoMonto);
-      resPorcentaje.textContent = netoPorcentaje + '% de tu venta';
-    }
-
-    selectMedio.addEventListener('change', (e) => {
-      aplicarPreset(e.target.value);
-      calcularDemo();
-    });
-
-    [inputPrecio, inputComision, inputFijo, inputEnvio, inputRetenciones].forEach(input => {
-      input.addEventListener('input', calcularDemo);
-    });
-
-    // Inicializar Demo
-    calcularDemo();
+    // (demo anterior reemplazada por la sección #demo con tarifas oficiales)
 
     /* ==========================================================
        FORMULARIO LISTA DE ESPERA Y ENVÍO A SUPABASE
